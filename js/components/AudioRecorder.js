@@ -6,7 +6,6 @@ Vue.component('AudioRecorder', {
       secondsElapsed: 0,
       timer: undefined,
       recorder: null,
-      audioData: [],
       audioUrl: ''
     }
   },
@@ -43,7 +42,7 @@ Vue.component('AudioRecorder', {
   },
   methods: {
     initRecorder: function () {
-      this.audioData = []
+      let audioData = []
       this.audioUrl = ''
       if (navigator.mediaDevices.getUserMedia) {
         console.log('getUserMedia supported.')
@@ -53,10 +52,10 @@ Vue.component('AudioRecorder', {
           .then(stream => {
             this.recorder = new MediaRecorder(stream)
             this.recorder.ondataavailable = (e) => {
-              this.audioData.push(e.data)
+              audioData.push(e.data)
             }
             this.recorder.onstop = (e) => {
-              let blob = new Blob(this.audioData, {'type' : 'audio/x-wav'})
+              let blob = new Blob(audioData, {'type' : 'audio/x-wav'})
               this.$emit('audio-file', blob)
               this.audioUrl = URL.createObjectURL(blob)
               this.$emit('audio-url', this.audioUrl)
