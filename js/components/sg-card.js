@@ -1,4 +1,5 @@
 Vue.component('sg-card', {
+  props: ['sound'],
   data() {
     return {
 
@@ -8,14 +9,19 @@ Vue.component('sg-card', {
   <div>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">Audio #1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Created at: 17 August 1945</h6>
+        <h5 class="card-title">{{ sound.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Created at: {{ sound.createdAt.toString() }}</h6>
+        <p> {{ sound.url }} </p>
         <div class="col-sm-12 col-sm-offset-4">
-          <audio controls class="block">
-            <source src="https://storage.cloud.google.com/general_ramdhon/1557398478885audio">
+          <audio :src="sound.url" controls class="block">
           </audio>
         </div>
         <br>
+        <div id="fb-root"></div>
+
+        <div class="fb-share-button" :data-href="sound.url"
+          data-layout="button_count">
+        </div>
         <a href="#" class="card-link">SHARE <i class="fas fa-share-alt"></i></a>
       </div>
     </div>

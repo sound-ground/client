@@ -10,30 +10,21 @@ Vue.component('sg-create', {
   methods: {
     handleFileUpload(event) {
       console.log(event.target.files);
-      this.file = event.target.files[0];
-      console.log(this.file);
+      this.form.file = event.target.files[0];
+      console.log(this.form.file);
     },
     upload() {
       let formData = new FormData();
-        formData.append('music', this.file);
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/music',
-        data: formData,
-      })
-        .then(({ data }) => {
-          console.log(data.message);
-        })
-        .catch(err => {
-          console.log(err);
-        })
+        formData.append('title', this.form.title);
+        formData.append('music', this.form.file);
+      this.$emit('upload', formData);
     },
     handleFile: function (file) {
-      this.file = file;
+      this.form.file = file;
       console.log(file)
     },
     handleUrl: function (url) {
-      console.log(url)
+      console.log('url:', url)
     }
   },
   template: `
@@ -49,7 +40,7 @@ Vue.component('sg-create', {
           <form method="POST" @submit.prevent="upload">
             <div class="form-group">
               <label for="exampleInput1">Title</label>
-              <input type="text" class="form-control" id="exampleInput1" placeholder="Enter title">
+              <input v-model="form.title" type="text" class="form-control" id="exampleInput1" placeholder="Enter title">
             </div>
             <div class="form-group">
               <audio-recorder

@@ -4,7 +4,7 @@ Vue.component('RecorderControl', {
     <div>
       <button
         class="btn btn-lg"
-        @click="$emit('click', 'record')"
+        @click.prevent="$emit('click', 'record')"
         v-if="!isRecording"
       >
         <i class="fa fa-microphone"></i>
