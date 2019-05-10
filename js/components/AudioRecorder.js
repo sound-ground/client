@@ -56,11 +56,11 @@ Vue.component('AudioRecorder', {
               this.audioData.push(e.data)
             }
             this.recorder.onstop = (e) => {
-              let blob = new Blob(this.audioData, {'type' : 'wav'})
-              this.audioUrl = window.URL.createObjectURL(blob)
+              let blob = new Blob(this.audioData, {'type' : 'audio/x-wav'})
+              this.$emit('audio-file', blob)
+              this.audioUrl = URL.createObjectURL(blob)
+              this.$emit('audio-url', this.audioUrl)
               this.$refs.player.src = this.audioUrl
-              this.$refs.player.load()
-              console.log(this.$refs.player)
             }
             this.recorder.start()
           })
